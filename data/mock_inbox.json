@@ -1,0 +1,186 @@
+{
+  "emails": [
+    {
+      "id": "email_001",
+      "sender": "priya.sharma@techcorp.in",
+      "sender_name": "Priya Sharma",
+      "subject": "Urgent: Q4 Budget Review Meeting",
+      "body": "Hi,\n\nWe need to schedule our Q4 budget review meeting. Can you join us this Friday at 2 PM IST? Please confirm your availability by tomorrow.\n\nWe'll be discussing:\n- Q4 financial performance\n- Budget allocations for next quarter\n- Resource planning\n\nBest regards,\nPriya Sharma\nFinance Manager",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_002",
+      "sender": "noreply@techweekly.com",
+      "sender_name": "Tech Weekly Digest",
+      "subject": "Your Weekly AI & ML Updates - January 2024",
+      "body": "Hello!\n\nHere are this week's top stories in AI and Machine Learning:\n\n1. New breakthroughs in LLM technology\n2. Google announces Gemini 2.0\n3. OpenAI releases GPT-5 beta\n4. Latest research papers from NeurIPS\n\nRead more at our website: www.techweekly.com\n\nUnsubscribe | Manage Preferences",
+      "timestamp": "2024-01-14T08:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_003",
+      "sender": "raj.kumar@clientco.in",
+      "sender_name": "Raj Kumar",
+      "subject": "Action Required: Project Deliverable Review",
+      "body": "Hello,\n\nI need you to review the project deliverables document and provide feedback by end of this week (January 19th). This is high priority as we have a client presentation next Monday.\n\nPlease focus on:\n- Technical specifications\n- Timeline feasibility\n- Resource requirements\n\nLet me know if you need any clarification.\n\nThanks,\nRaj Kumar\nProject Manager",
+      "timestamp": "2024-01-13T14:20:00Z",
+      "has_attachments": true
+    },
+    {
+      "id": "email_004",
+      "sender": "amit.patel@startup.io",
+      "sender_name": "Amit Patel",
+      "subject": "Sprint Planning Meeting - January 22nd",
+      "body": "Team,\n\nOur next sprint planning meeting is scheduled for January 22nd at 11 AM IST. Please come prepared with:\n- Completed tasks from current sprint\n- Blockers and dependencies\n- Proposed tasks for next sprint\n\nMeeting link: https://meet.startup.io/sprint-planning\n\nSee you there!\nAmit",
+      "timestamp": "2024-01-12T16:45:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_005",
+      "sender": "sneha.reddy@company.com",
+      "sender_name": "Sneha Reddy",
+      "subject": "Project Status Update - Week 2",
+      "body": "Hi,\n\nHere's the status update for this week:\n\n✅ Completed:\n- User authentication module\n- Database schema design\n- API endpoints for user management\n\n🔄 In Progress:\n- Frontend dashboard implementation\n- Integration testing\n\n⏳ Pending:\n- Performance optimization\n- Documentation\n\nWe're on track for the January 31st deadline.\n\nBest,\nSneha",
+      "timestamp": "2024-01-11T09:15:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_006",
+      "sender": "security@banking.com",
+      "sender_name": "Security Alert",
+      "subject": "URGENT: Verify Your Account Now!",
+      "body": "Dear Customer,\n\nWe detected suspicious activity on your account. Click here immediately to verify: http://suspicious-link.com/verify\n\nYour account will be suspended in 24 hours if you don't act now.\n\nThis is an automated message. Do not reply.",
+      "timestamp": "2024-01-10T20:30:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_007",
+      "sender": "vijay.malhotra@corp.in",
+      "sender_name": "Vijay Malhotra",
+      "subject": "Critical Bug in Production - Immediate Attention Needed",
+      "body": "URGENT!\n\nWe've discovered a critical bug in the payment processing module. Users are unable to complete transactions. This needs immediate attention.\n\nPlease:\n1. Investigate the issue ASAP\n2. Deploy hotfix by end of day\n3. Update the status dashboard\n\nThis is affecting 15% of our users. Priority: HIGHEST\n\nVijay\nCTO",
+      "timestamp": "2024-01-09T11:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_008",
+      "sender": "newsletter@devtools.com",
+      "sender_name": "DevTools Weekly",
+      "subject": "Top 10 Python Libraries You Should Know - January 2024",
+      "body": "Hello Developer!\n\nThis week's newsletter features:\n- Top 10 Python libraries for 2024\n- New VS Code extensions\n- Git tips and tricks\n- Open source project spotlight\n\nRead the full article: www.devtools.com/newsletter\n\nHappy coding!\nDevTools Team",
+      "timestamp": "2024-01-08T07:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_009",
+      "sender": "anita.desai@hr.com",
+      "sender_name": "Anita Desai",
+      "subject": "Expense Report Approval Required",
+      "body": "Hi,\n\nI need your approval on the Q4 expense report. Please review and approve by January 17th.\n\nTotal amount: ₹45,000\nCategories:\n- Travel: ₹25,000\n- Software licenses: ₹15,000\n- Office supplies: ₹5,000\n\nYou can review the detailed report in the HR portal.\n\nThanks,\nAnita\nHR Manager",
+      "timestamp": "2024-01-07T13:30:00Z",
+      "has_attachments": true
+    },
+    {
+      "id": "email_010",
+      "sender": "conference@ai-summit.in",
+      "sender_name": "AI Summit 2024",
+      "subject": "Invitation: AI & ML Conference - February 15-17",
+      "body": "Dear Professional,\n\nYou're invited to attend the AI & ML Conference 2024 in Bangalore.\n\nKey speakers:\n- Dr. Ramesh Krishnan (IIT)\n- Sarah Johnson (Google AI)\n- Prof. Anil Kumar (IIIT)\n\nTopics:\n- Large Language Models\n- Computer Vision\n- Reinforcement Learning\n- Industry Applications\n\nEarly bird registration ends January 20th. Register now: www.ai-summit.in\n\nBest regards,\nConference Organizing Committee",
+      "timestamp": "2024-01-06T10:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_011",
+      "sender": "kiran.singh@team.com",
+      "sender_name": "Kiran Singh",
+      "subject": "Code Review Request - PR #342",
+      "body": "Hi,\n\nCould you please review my pull request #342? It's for the new feature module.\n\nChanges include:\n- Added user preferences API\n- Updated database migrations\n- New unit tests\n\nDeadline: By end of this week (January 19th)\n\nPR Link: github.com/company/repo/pull/342\n\nThanks!\nKiran",
+      "timestamp": "2024-01-05T15:20:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_012",
+      "sender": "noreply@shopping.com",
+      "sender_name": "Mega Sale",
+      "subject": "🎉 FLASH SALE: 90% OFF Everything! Limited Time!",
+      "body": "HURRY! Don't miss out on our biggest sale ever!\n\n90% OFF on all products!\nFree shipping!\nLimited time only!\n\nClick here now: http://suspicious-sale.com\n\nThis offer expires in 2 hours!\n\n*This is a promotional email. Unsubscribe here.",
+      "timestamp": "2024-01-04T18:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_013",
+      "sender": "meera.nair@client.com",
+      "sender_name": "Meera Nair",
+      "subject": "Question About API Integration",
+      "body": "Hello,\n\nI have a question about integrating your API with our system. Specifically:\n\n1. What's the rate limit for API calls?\n2. Do you support webhook notifications?\n3. What authentication method should we use?\n\nCould you provide some documentation or schedule a quick call?\n\nThanks,\nMeera Nair\nTechnical Lead",
+      "timestamp": "2024-01-03T12:10:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_014",
+      "sender": "arjun.sharma@company.in",
+      "sender_name": "Arjun Sharma",
+      "subject": "Weekly Team Standup - Monday 9 AM",
+      "body": "Team,\n\nReminder: Our weekly standup is scheduled for Monday at 9 AM IST.\n\nAgenda:\n- Progress updates\n- Blockers discussion\n- Sprint goals review\n\nMeeting room: Conference Room A\nVideo link: meet.company.in/standup\n\nPlease come prepared with your updates.\n\nArjun\nTeam Lead",
+      "timestamp": "2024-01-02T17:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_015",
+      "sender": "support@software.com",
+      "sender_name": "Software Support",
+      "subject": "Invoice #INV-2024-001 - Payment Reminder",
+      "body": "Dear Customer,\n\nThis is a reminder that invoice #INV-2024-001 for ₹50,000 is due on January 20th, 2024.\n\nPayment details:\n- Amount: ₹50,000\n- Due date: January 20, 2024\n- Invoice: Attached\n\nPlease make the payment before the due date to avoid service interruption.\n\nPayment link: portal.software.com/pay\n\nThank you,\nAccounts Team",
+      "timestamp": "2024-01-01T09:00:00Z",
+      "has_attachments": true
+    },
+    {
+      "id": "email_016",
+      "sender": "deepak.verma@project.com",
+      "sender_name": "Deepak Verma",
+      "subject": "Database Migration - Action Required",
+      "body": "Hi,\n\nWe need to perform a database migration this weekend (January 13-14). This requires:\n\n1. Backup current database (by Friday EOD)\n2. Review migration script (by Thursday)\n3. Be available during migration window (Saturday 2 AM - 4 AM IST)\n\nThis is critical for the new feature release. Please confirm your availability.\n\nDeepak\nDevOps Lead",
+      "timestamp": "2023-12-31T14:30:00Z",
+      "has_attachments": true
+    },
+    {
+      "id": "email_017",
+      "sender": "newsletter@technews.in",
+      "sender_name": "Tech News India",
+      "subject": "Top Tech Stories This Week",
+      "body": "Hello Tech Enthusiast!\n\nHere's what happened in tech this week:\n\n📱 Mobile:\n- New smartphone launches\n- Android 15 beta release\n\n💻 Software:\n- Latest OS updates\n- Security patches\n\n🤖 AI:\n- New AI models announced\n- Industry applications\n\nRead full stories: www.technews.in\n\nUnsubscribe | Preferences",
+      "timestamp": "2023-12-30T06:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_018",
+      "sender": "priyanka.gupta@team.in",
+      "sender_name": "Priyanka Gupta",
+      "subject": "General: Office Holiday Schedule",
+      "body": "Hi everyone,\n\nJust a reminder about the office holiday schedule for January:\n\n- January 15: Pongal (Holiday)\n- January 26: Republic Day (Holiday)\n\nThe office will be closed on these days. Please plan your work accordingly.\n\nHappy holidays!\nPriyanka\nAdmin",
+      "timestamp": "2023-12-29T11:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_019",
+      "sender": "rohan.kapoor@urgent.com",
+      "sender_name": "Rohan Kapoor",
+      "subject": "URGENT: Server Downtime Scheduled",
+      "body": "CRITICAL NOTICE!\n\nWe're experiencing server issues and need to perform emergency maintenance tonight at 11 PM IST.\n\nAction required:\n- Save all your work\n- Complete any critical tasks before 10:30 PM\n- Expect 2-3 hours of downtime\n\nThis is urgent and cannot be postponed. Please acknowledge receipt.\n\nRohan\nInfrastructure Team",
+      "timestamp": "2023-12-28T16:00:00Z",
+      "has_attachments": false
+    },
+    {
+      "id": "email_020",
+      "sender": "sanjay.mehta@client.in",
+      "sender_name": "Sanjay Mehta",
+      "subject": "Follow-up: Project Discussion",
+      "body": "Hello,\n\nFollowing up on our previous conversation about the project timeline. I wanted to check if you've had a chance to review the proposal.\n\nLet me know if you have any questions or would like to schedule a call to discuss further.\n\nLooking forward to your response.\n\nBest regards,\nSanjay Mehta\nBusiness Development",
+      "timestamp": "2023-12-27T10:15:00Z",
+      "has_attachments": false
+    }
+  ]
+}
+
+

@@ -1,0 +1,206 @@
+═══════════════════════════════════════════════════════════════
+SAMPLE EMAILS FOR VIDEO DEMONSTRATION
+Copy and paste these during your video recording
+═══════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 1: Urgent Meeting Request
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: sarah.johnson@company.com
+Subject: URGENT: Board Meeting Tomorrow at 3 PM
+
+Hi,
+
+We need to reschedule the board meeting to tomorrow (Wednesday) at 3 PM IST. This is urgent as we need to discuss the Q4 results before the deadline.
+
+Please confirm your availability ASAP. The meeting will be in Conference Room A.
+
+Thanks,
+Sarah Johnson
+CEO
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 2: Project Update with Action Items
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: tech.team@startup.io
+Subject: Sprint 15 Status Update - Action Required
+
+Hello Team,
+
+Here's our sprint 15 status:
+
+✅ Completed:
+- User authentication module
+- Payment gateway integration
+- API documentation
+
+🔄 In Progress:
+- Frontend dashboard
+- Unit tests
+
+⏳ Blocked:
+- Need approval for database migration (by Friday)
+- Waiting on design assets from design team
+
+Action Items:
+1. Review and approve database migration plan by Friday EOD
+2. Provide feedback on API documentation by Thursday
+3. Schedule demo for stakeholders next week
+
+Let me know if you have any questions.
+
+Best,
+Tech Team Lead
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 3: Newsletter
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: newsletter@techweekly.com
+Subject: Weekly Tech Digest - AI & ML Updates
+
+Hello Tech Enthusiast!
+
+This week's top stories:
+
+🤖 AI News:
+- OpenAI releases GPT-5 beta
+- Google announces new Gemini features
+- Latest research from NeurIPS 2024
+
+💻 Development:
+- New VS Code extensions
+- Python 3.13 released
+- Docker best practices
+
+Read more: www.techweekly.com
+
+Unsubscribe | Manage Preferences
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 4: Client Request with Deadline
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: client@business.com
+Subject: Project Deliverable Review - Deadline: Jan 25
+
+Hi,
+
+I need you to review the project deliverables document and provide feedback by January 25th. This is high priority as we have a client presentation on January 28th.
+
+Please focus on:
+- Technical feasibility
+- Timeline accuracy
+- Resource requirements
+- Risk assessment
+
+The document is attached. Let me know if you need any clarification.
+
+Thanks,
+Client Manager
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 5: Spam-like Email
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: security@bank-verify.com
+Subject: URGENT: Verify Your Account Now!
+
+Dear Customer,
+
+We detected suspicious activity on your account. Click here immediately to verify: http://suspicious-link.com/verify
+
+Your account will be suspended in 24 hours if you don't act now.
+
+This is an automated message. Do not reply.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 6: General Inquiry
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: info@conference.com
+Subject: Invitation: AI Summit 2024
+
+Dear Professional,
+
+You're invited to attend the AI & ML Conference 2024 in Bangalore, February 15-17.
+
+Key speakers include industry leaders and researchers. Early bird registration ends January 20th.
+
+Register now: www.ai-summit.in
+
+Best regards,
+Conference Organizing Committee
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 7: Expense Approval
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: finance@company.com
+Subject: Expense Report Approval Required
+
+Hi,
+
+I need your approval on the Q4 expense report. Please review and approve by January 17th.
+
+Total amount: ₹45,000
+
+Categories:
+- Travel: ₹25,000
+- Software licenses: ₹15,000
+- Office supplies: ₹5,000
+
+You can review the detailed report in the finance portal.
+
+Thanks,
+Finance Team
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL 8: Code Review Request
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From: developer@team.com
+Subject: Code Review Request - PR #342
+
+Hi,
+
+Could you please review my pull request #342? It's for the new feature module.
+
+Changes include:
+- Added user preferences API
+- Updated database migrations
+- New unit tests
+
+Deadline: By end of this week (January 19th)
+
+PR Link: github.com/company/repo/pull/342
+
+Thanks!
+Developer
+
+
+═══════════════════════════════════════════════════════════════
+QUICK REFERENCE FOR VIDEO
+═══════════════════════════════════════════════════════════════
+
+Use Email 1 for: Meeting Request demonstration
+Use Email 2 for: Action Items extraction
+Use Email 3 for: Newsletter categorization
+Use Email 4 for: High priority task with deadline
+Use Email 5 for: Spam detection
+Use Email 6 for: General category
+Use Email 7 for: To-Do item
+Use Email 8 for: Project Update
+
+═══════════════════════════════════════════════════════════════
+
+
