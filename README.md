@@ -4,13 +4,13 @@ An intelligent email management system powered by Google Gemini AI that helps yo
 
 ##  Features
 
-- ** Email Categorization**: Automatically categorize emails into Important, Newsletter, Spam, To-Do, Project Update, Meeting Request, or General
-- ** Action Item Extraction**: Extract actionable tasks with deadlines and priorities from emails
-- ** Chat Interface**: Ask questions about your inbox and get intelligent answers
-- ** Draft Generation**: Generate professional email replies and new emails using AI
-- ** Prompt Management**: Customize and manage prompts for categorization, action extraction, and auto-reply
-- ** Dashboard**: Visual overview of your inbox with statistics and category breakdown
-- ** Smart Search**: Search and filter emails by category, sender, or subject
+- **Email Categorization**: Automatically categorize emails into Important, Newsletter, Spam, To-Do, Project Update, Meeting Request, or General
+- **Action Item Extraction**: Extract actionable tasks with deadlines and priorities from emails
+- **Chat Interface**: Ask questions about your inbox and get intelligent answers
+- **Draft Generation**: Generate professional email replies and new emails using AI
+- **Prompt Management**: Customize and manage prompts for categorization, action extraction, and auto-reply
+- **Dashboard**: Visual overview of your inbox with statistics and category breakdown
+- **Smart Search**: Search and filter emails by category, sender, or subject
 
 ##  Architecture
 
