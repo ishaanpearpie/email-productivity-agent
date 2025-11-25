@@ -2,24 +2,24 @@
 
 An intelligent email management system powered by Google Gemini AI that helps you categorize emails, extract action items, generate replies, and interact with your inbox through a natural chat interface.
 
-## 🎯 Features
+##  Features
 
-- **📧 Email Categorization**: Automatically categorize emails into Important, Newsletter, Spam, To-Do, Project Update, Meeting Request, or General
-- **📋 Action Item Extraction**: Extract actionable tasks with deadlines and priorities from emails
-- **💬 Chat Interface**: Ask questions about your inbox and get intelligent answers
-- **✉️ Draft Generation**: Generate professional email replies and new emails using AI
-- **⚙️ Prompt Management**: Customize and manage prompts for categorization, action extraction, and auto-reply
-- **📊 Dashboard**: Visual overview of your inbox with statistics and category breakdown
-- **🔍 Smart Search**: Search and filter emails by category, sender, or subject
+- ** Email Categorization**: Automatically categorize emails into Important, Newsletter, Spam, To-Do, Project Update, Meeting Request, or General
+- ** Action Item Extraction**: Extract actionable tasks with deadlines and priorities from emails
+- ** Chat Interface**: Ask questions about your inbox and get intelligent answers
+- ** Draft Generation**: Generate professional email replies and new emails using AI
+- ** Prompt Management**: Customize and manage prompts for categorization, action extraction, and auto-reply
+- ** Dashboard**: Visual overview of your inbox with statistics and category breakdown
+- ** Smart Search**: Search and filter emails by category, sender, or subject
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
 │         Streamlit UI (app.py)                   │
-│  ┌──────────┬────────┬────────┬──────────┐     │
-│  │Dashboard │ Inbox  │Prompts │   Chat   │     │
-│  └──────────┴────────┴────────┴──────────┘     │
+│  ┌──────────┬────────┬────────┬──────────┐      │
+│  │Dashboard │ Inbox  │Prompts │   Chat   │      │
+│  └──────────┴────────┴────────┴──────────┘      │
 └─────────────────┬───────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────┐
@@ -30,7 +30,7 @@ An intelligent email management system powered by Google Gemini AI that helps yo
 └─────────────────┬───────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────┐
-│  LLM Client (utils/gemini_client.py)           │
+│  LLM Client (utils/gemini_client.py)            │
 │  Google Gemini API (gemini-1.5-flash)           │
 │  • Free tier                                    │
 │  • Fast responses                               │
@@ -38,19 +38,19 @@ An intelligent email management system powered by Google Gemini AI that helps yo
 └─────────────────┬───────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────┐
-│   Data Layer (database/db_manager.py)            │
-│   SQLite Database (./data/email_agent.db)        │
+│   Data Layer (database/db_manager.py)           │
+│   SQLite Database (./data/email_agent.db)       │
 │   • Emails  • Prompts  • Drafts                 │
 │   • Action Items  • Processing Logs             │
 └─────────────────────────────────────────────────┘
 ```
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - **Python 3.11+**
 - **Google Gemini API Key** (FREE - get from https://makersuite.google.com/app/apikey)
 
-## 🚀 Installation
+##  Installation
 
 ### 1. Navigate to Project Directory
 
@@ -86,7 +86,7 @@ nano .env
 # Add: GEMINI_API_KEY=your_actual_api_key_here
 ```
 
-## 🔑 Getting Gemini API Key
+##  Getting Gemini API Key
 
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Sign in with your Google account
@@ -94,7 +94,7 @@ nano .env
 4. Copy the key to your `.env` file
 5. **Note**: Free tier includes generous limits for development
 
-## 💻 Usage
+##  Usage
 
 ### Run the Application
 
@@ -115,7 +115,7 @@ The application automatically loads the mock inbox (`data/mock_inbox.json`) on f
 ### Processing Emails
 
 1. Go to the **Dashboard** tab
-2. Click **"🔄 Process Inbox"** to categorize all emails and extract action items
+2. Click **" Process Inbox"** to categorize all emails and extract action items
 3. View processing progress and results
 
 ### Using the Chat Agent
@@ -133,14 +133,14 @@ The application automatically loads the mock inbox (`data/mock_inbox.json`) on f
 1. **Reply to Email**: 
    - Go to **Inbox** tab
    - Select an email
-   - Click **"✉️ Generate Reply"**
+   - Click **" Generate Reply"**
    - Draft will be saved in **Drafts** tab
 
 2. **Create New Email**:
    - Go to **Drafts** tab
-   - Click **"➕ Create New Email"**
+   - Click **" Create New Email"**
    - Fill in recipient, purpose, and key points
-   - Click **"✨ Generate Draft"**
+   - Click **" Generate Draft"**
 
 ### Managing Prompts
 
@@ -152,7 +152,7 @@ The application automatically loads the mock inbox (`data/mock_inbox.json`) on f
 3. Test prompts before saving
 4. Restore defaults if needed
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 OceanAI/
@@ -225,7 +225,7 @@ OceanAI/
 - **API Key Security**: Never commit your `.env` file with API keys
 - **Error Handling**: All Gemini API errors are handled gracefully with user-friendly messages
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### API Key Not Working
 - Verify key is correct in `.env` file
@@ -264,7 +264,7 @@ source venv/bin/activate
 pytest tests/
 ```
 
-## 📝 Configuration Options
+##  Configuration Options
 
 Edit `.env` file to customize:
 
@@ -273,7 +273,7 @@ Edit `.env` file to customize:
 - `REQUEST_TIMEOUT`: API request timeout in seconds (default: 30)
 - `AUTO_PROCESS_ON_LOAD`: Automatically process emails on load (default: True)
 
-## 🤝 Contributing
+##  Contributing
 
 This is an assignment project. For improvements:
 
@@ -283,17 +283,17 @@ This is an assignment project. For improvements:
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
+##  License
 
 This project is created for educational/assignment purposes.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Google Gemini API for LLM capabilities
 - Streamlit for the UI framework
 - SQLite for lightweight database
 
-## 📞 Support
+##  Support
 
 For issues or questions:
 1. Check the Troubleshooting section
@@ -302,6 +302,6 @@ For issues or questions:
 
 ---
 
-**Built with ❤️ using Google Gemini AI and Streamlit**
+**Built with  using Google Gemini AI and Streamlit**
 
 
