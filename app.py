@@ -45,12 +45,16 @@ def initialize_app():
         # Check if mock inbox needs to be loaded
         # Only load if no emails exist in database
         existing_emails = db_manager.get_emails()
+        emails_just_loaded = False
+        
         if not st.session_state.mock_loaded and len(existing_emails) == 0:
             if MOCK_INBOX_PATH.exists():
                 success, message = db_manager.load_mock_inbox(str(MOCK_INBOX_PATH))
                 if success:
                     st.session_state.mock_loaded = True
-                    st.success(message)
+                    emails_just_loaded = True
+                    # Reload emails after loading mock inbox
+                    existing_emails = db_manager.get_emails()
                 else:
                     # If loading failed but not because of existing emails, show warning
                     if "already loaded" not in message:
@@ -58,6 +62,16 @@ def initialize_app():
         elif len(existing_emails) > 0:
             # Emails already exist, mark as loaded
             st.session_state.mock_loaded = True
+        
+        # Auto-categorize emails if they're not categorized (for fresh loads)
+        if emails_just_loaded or any(e.get('category') in [None, 'Uncategorized', ''] for e in existing_emails):
+            from utils.rule_categorizer import auto_categorize_emails
+            uncategorized = [e for e in existing_emails if not e.get('category') or e.get('category') in ['Uncategorized', '']]
+            if uncategorized:
+                categorized_count = auto_categorize_emails(db_manager, uncategorized)
+                if categorized_count > 0:
+                    # Reload emails to get updated categories
+                    existing_emails = db_manager.get_emails()
         
         # Initialize Gemini client
         try:
