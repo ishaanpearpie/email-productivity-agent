@@ -49,21 +49,30 @@ class EmailProcessor:
                 logger.error("No categorization prompt found")
                 return 'Uncategorized'
             
-            # Build full prompt
-            email_text = f"Sender: {email_content.get('sender', '')}\n"
+            # Build full prompt - use shorter format for faster processing
+            email_text = f"From: {email_content.get('sender', '')}\n"
             email_text += f"Subject: {email_content.get('subject', '')}\n"
-            email_text += f"Body: {email_content.get('body', '')}\n"
+            email_text += f"Body: {email_content.get('body', '')[:500]}\n"  # Limit body length
             
             full_prompt = f"{prompt}\n\nEmail:\n{email_text}"
             
-            # Call Gemini API
+            # Call Gemini API - use shorter timeout
             result = self.gemini.generate_completion(full_prompt, max_tokens=50)
             
-            if result['success'] and result['response']:
+            # If it fails, return Uncategorized quickly
+            if not result['success']:
+                error_msg = result.get('error', 'Unknown')[:50] if result.get('error') else 'Unknown'
+                logger.warning(f"Categorization failed for email {email_content.get('id')}: {error_msg}")
+                return 'Uncategorized'
+            
+            if result.get('response'):
                 category = result['response'].strip()
-                # Clean up category name
-                category = category.replace('Category:', '').strip()
-                category = category.split('\n')[0].strip()
+                # Clean up category name - remove common prefixes/suffixes
+                category = category.replace('Category:', '').replace('category:', '').strip()
+                category = category.split('\n')[0].split('.')[0].strip()  # Take first line, remove periods
+                category = category.strip('"').strip("'").strip()  # Remove quotes
+                
+                logger.info(f"Categorized email {email_content.get('id')} as: {category}")
                 
                 # Validate category
                 valid_categories = [
@@ -71,15 +80,38 @@ class EmailProcessor:
                     'Project Update', 'Meeting Request', 'General'
                 ]
                 
-                # Check if category is valid
+                # Check if category matches (case-insensitive)
+                category_lower = category.lower()
                 for valid_cat in valid_categories:
-                    if valid_cat.lower() in category.lower():
+                    if valid_cat.lower() == category_lower or valid_cat.lower() in category_lower:
+                        logger.info(f"Matched category: {valid_cat}")
                         return valid_cat
                 
+                # Try fuzzy matching for common variations
+                category_map = {
+                    'important': 'Important',
+                    'newsletter': 'Newsletter',
+                    'spam': 'Spam',
+                    'todo': 'To-Do',
+                    'to-do': 'To-Do',
+                    'to do': 'To-Do',
+                    'project update': 'Project Update',
+                    'meeting request': 'Meeting Request',
+                    'meeting': 'Meeting Request',
+                    'general': 'General'
+                }
+                
+                for key, value in category_map.items():
+                    if key in category_lower:
+                        logger.info(f"Fuzzy matched category: {value}")
+                        return value
+                
                 # If not found, return as-is if it looks reasonable
-                if len(category) < 50:
+                if len(category) < 50 and category != '':
+                    logger.warning(f"Using unrecognized category: {category}")
                     return category
                 
+                logger.warning(f"Could not determine category, using 'Uncategorized'")
                 return 'Uncategorized'
             else:
                 logger.error(f"Failed to categorize email: {result.get('error')}")
@@ -214,11 +246,15 @@ class EmailProcessor:
             'action_items_count': len(saved_items)
         }
     
-    def process_inbox(self, limit: Optional[int] = None) -> Dict[str, Any]:
+    def process_inbox(self, limit: Optional[int] = None, 
+                     progress_callback: Optional[callable] = None,
+                     skip_action_extraction: bool = False) -> Dict[str, Any]:
         """Process all unprocessed emails.
         
         Args:
             limit: Optional limit on number of emails to process
+            progress_callback: Optional callback function(processed, total, current_email_subject)
+            skip_action_extraction: If True, only categorize (faster)
             
         Returns:
             Dictionary with processing statistics
@@ -233,25 +269,61 @@ class EmailProcessor:
                 'message': 'No unprocessed emails found'
             }
         
+        total = len(unprocessed)
         processed_count = 0
         failed_count = 0
+        errors = []
         
-        for email in unprocessed:
+        for idx, email in enumerate(unprocessed):
             try:
-                result = self.process_email(email['id'])
-                if result['success']:
-                    processed_count += 1
+                # Update progress
+                if progress_callback:
+                    progress_callback(idx + 1, total, email.get('subject', 'Unknown'))
+                
+                # Small delay to avoid rate limiting (except for first email)
+                if idx > 0:
+                    import time
+                    time.sleep(0.2)  # Reduced to 200ms for faster processing
+                
+                # Process email (categorize only if skip_action_extraction)
+                if skip_action_extraction:
+                    # Just categorize - mark as processed even if it fails
+                    category = self.categorize_email(email)
+                    self.db.update_email_category(email['id'], category)  # Will save even if Uncategorized
+                    if category and category != 'Uncategorized':
+                        processed_count += 1
+                        logger.info(f"✓ Email {email['id']} - Category: {category}")
+                    else:
+                        failed_count += 1
+                        errors.append(f"Email {email['id']}: Categorized as {category}")
                 else:
-                    failed_count += 1
+                    # Full processing
+                    result = self.process_email(email['id'])
+                    if result['success']:
+                        processed_count += 1
+                        logger.info(f"✓ Email {email['id']} - Category: {result.get('category')}")
+                    else:
+                        failed_count += 1
+                        error_msg = result.get('error', 'Unknown error')
+                        errors.append(f"Email {email['id']}: {error_msg}")
+                
             except Exception as e:
                 logger.error(f"Error processing email {email['id']}: {e}")
                 failed_count += 1
+                errors.append(f"Email {email['id']}: {str(e)[:100]}")
+                # Continue processing next email - don't stop on errors
+                continue
         
-        return {
+        result = {
             'success': True,
             'processed': processed_count,
             'failed': failed_count,
-            'total': len(unprocessed)
+            'total': total
         }
+        
+        if errors:
+            result['errors'] = errors[:5]  # Include first 5 errors
+        
+        return result
 
 

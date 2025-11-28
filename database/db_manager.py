@@ -83,9 +83,31 @@ class DatabaseManager:
             conn = self._get_connection()
             cursor = conn.cursor()
             
+            # Check if emails already exist in database
+            cursor.execute("SELECT COUNT(*) as count FROM emails")
+            existing_count = cursor.fetchone()['count']
+            
+            if existing_count > 0:
+                conn.close()
+                return False, f"Emails already loaded ({existing_count} emails in database). Clear database first if you want to reload."
+            
             loaded_count = 0
             for email_data in emails:
                 try:
+                    # Check for duplicate by checking sender+subject+timestamp combination
+                    cursor.execute("""
+                        SELECT id FROM emails 
+                        WHERE sender = ? AND subject = ? AND timestamp = ?
+                    """, (
+                        email_data.get('sender', ''),
+                        email_data.get('subject', ''),
+                        email_data.get('timestamp', datetime.now().isoformat())
+                    ))
+                    
+                    if cursor.fetchone():
+                        logger.debug(f"Email already exists: {email_data.get('subject')}")
+                        continue
+                    
                     cursor.execute("""
                         INSERT INTO emails (sender, subject, body, timestamp, raw_json)
                         VALUES (?, ?, ?, ?, ?)
@@ -226,12 +248,54 @@ class DatabaseManager:
                 SET category = ?, is_processed = 1 
                 WHERE id = ?
             """, (category, email_id))
+            rows_updated = cursor.rowcount
             conn.commit()
             conn.close()
+            
+            if rows_updated == 0:
+                logger.warning(f"No email found with id {email_id} to update category")
+                return False
+            
+            logger.info(f"Updated email {email_id} category to: {category}")
             return True
         except Exception as e:
             logger.error(f"Error updating email category: {e}")
             return False
+    
+    def reset_processed_flag(self, email_id: Optional[int] = None) -> int:
+        """Reset is_processed flag for emails (allows reprocessing).
+        
+        Args:
+            email_id: Optional specific email ID, or None for all emails
+            
+        Returns:
+            Number of emails updated
+        """
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            
+            if email_id:
+                cursor.execute("""
+                    UPDATE emails 
+                    SET is_processed = 0 
+                    WHERE id = ?
+                """, (email_id,))
+            else:
+                cursor.execute("""
+                    UPDATE emails 
+                    SET is_processed = 0
+                """)
+            
+            rows_updated = cursor.rowcount
+            conn.commit()
+            conn.close()
+            
+            logger.info(f"Reset processed flag for {rows_updated} email(s)")
+            return rows_updated
+        except Exception as e:
+            logger.error(f"Error resetting processed flag: {e}")
+            return 0
     
     def save_prompt(self, name: str, prompt_type: str, content: str) -> Optional[int]:
         """Save prompt to database.

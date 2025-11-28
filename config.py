@@ -15,13 +15,13 @@ DATABASE_PATH = os.getenv('DATABASE_PATH', str(PROJECT_ROOT / 'data' / 'email_ag
 
 # Gemini API configuration
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
-GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-1.5-flash')
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'models/gemini-flash-latest')  # Use correct model name
 
 # Application settings
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 AUTO_PROCESS_ON_LOAD = os.getenv('AUTO_PROCESS_ON_LOAD', 'True').lower() == 'true'
-MAX_RETRIES = int(os.getenv('MAX_RETRIES', '3'))
-REQUEST_TIMEOUT = int(os.getenv('REQUEST_TIMEOUT', '30'))
+MAX_RETRIES = int(os.getenv('MAX_RETRIES', '2'))  # Reduced for faster failure
+REQUEST_TIMEOUT = int(os.getenv('REQUEST_TIMEOUT', '15'))  # Reduced timeout
 
 # Data paths
 MOCK_INBOX_PATH = PROJECT_ROOT / 'data' / 'mock_inbox.json'

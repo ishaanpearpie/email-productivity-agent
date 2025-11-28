@@ -43,12 +43,21 @@ def initialize_app():
         db_manager = DatabaseManager()
         
         # Check if mock inbox needs to be loaded
-        if not st.session_state.mock_loaded:
+        # Only load if no emails exist in database
+        existing_emails = db_manager.get_emails()
+        if not st.session_state.mock_loaded and len(existing_emails) == 0:
             if MOCK_INBOX_PATH.exists():
                 success, message = db_manager.load_mock_inbox(str(MOCK_INBOX_PATH))
                 if success:
                     st.session_state.mock_loaded = True
                     st.success(message)
+                else:
+                    # If loading failed but not because of existing emails, show warning
+                    if "already loaded" not in message:
+                        st.warning(message)
+        elif len(existing_emails) > 0:
+            # Emails already exist, mark as loaded
+            st.session_state.mock_loaded = True
         
         # Initialize Gemini client
         try:
@@ -158,16 +167,73 @@ with tab1:
     with col2:
         st.subheader("Actions")
         
-        if st.button("🔄 Process Inbox", type="primary", use_container_width=True):
-            with st.spinner("Processing emails..."):
-                result = email_processor.process_inbox()
-                if result['success']:
-                    st.success(f"✅ Processed {result['processed']} emails successfully")
-                    if result['failed'] > 0:
-                        st.warning(f"⚠️ {result['failed']} emails failed to process")
-                    st.rerun()
+        # Processing options
+        st.markdown("**Processing Options:**")
+        processing_mode = st.radio(
+            "Choose processing mode:",
+            ["Fast (Categorize only)", "Full (Categorize + Extract Actions)"],
+            index=0,  # Default to Fast mode
+            horizontal=True,
+            key="processing_mode",
+            help="Fast mode is recommended - categorizes emails quickly. Full mode also extracts action items but takes longer."
+        )
+        
+        col_process1, col_process2 = st.columns(2)
+        
+        with col_process1:
+            if st.button("🔄 Process Inbox", type="primary", use_container_width=True):
+                skip_actions = (processing_mode == "Fast (Categorize only)")
+                
+                # Get unprocessed count
+                unprocessed = db.get_emails(is_processed=False)
+                total = len(unprocessed)
+                
+                if total == 0:
+                    st.info("No unprocessed emails found. Click 'Force Reprocess All' first.")
                 else:
-                    st.error("Failed to process inbox")
+                    # Create progress bar
+                    progress_bar = st.progress(0)
+                    status_text = st.empty()
+                    
+                    def update_progress(current, total_emails, email_subject):
+                        """Update progress callback."""
+                        progress = current / total_emails
+                        progress_bar.progress(progress)
+                        status_text.text(f"Processing {current}/{total_emails}: {email_subject[:50]}...")
+                    
+                    try:
+                        result = email_processor.process_inbox(
+                            progress_callback=update_progress,
+                            skip_action_extraction=skip_actions
+                        )
+                        
+                        progress_bar.progress(1.0)
+                        
+                        if result['success']:
+                            if result.get('message'):
+                                st.info(result['message'])
+                            else:
+                                status_text.text(f"✅ Processed {result['processed']}/{result['total']} emails successfully")
+                                if result['failed'] > 0:
+                                    st.warning(f"⚠️ {result['failed']} emails failed to process")
+                                    if result.get('errors'):
+                                        with st.expander("View errors"):
+                                            for error in result['errors']:
+                                                st.text(error)
+                        else:
+                            st.error("Failed to process inbox")
+                    except Exception as e:
+                        st.error(f"Error during processing: {e}")
+                        logger.exception("Processing error")
+                    finally:
+                        st.rerun()
+        
+        with col_process2:
+            if st.button("🔄 Force Reprocess All", use_container_width=True):
+                with st.spinner("Resetting emails for reprocessing..."):
+                    count = db.reset_processed_flag()
+                    st.info(f"Reset {count} emails. Click 'Process Inbox' to categorize them.")
+                    st.rerun()
         
         if st.button("🔄 Refresh Stats", use_container_width=True):
             st.rerun()

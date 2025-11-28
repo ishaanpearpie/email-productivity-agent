@@ -49,13 +49,100 @@ class GeminiClient:
             HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
         }
         
-        # Initialize model
-        self.model = genai.GenerativeModel(
-            model_name=self.model_name,
-            generation_config=self.generation_config,
-            safety_settings=self.safety_settings,
-            system_instruction="You are an intelligent email processing assistant."
-        )
+        # Initialize model as None - will be created on first use with fallback
+        self.model = None
+        self.model_name = model_name or GEMINI_MODEL or "models/gemini-flash-latest"
+    
+    def _discover_available_models(self):
+        """Discover available models from the API.
+        
+        Returns:
+            List of available model names
+        """
+        try:
+            all_models = list(genai.list_models())
+            available = []
+            for model in all_models:
+                methods = str(model.supported_generation_methods)
+                if 'generateContent' in methods:
+                    # Return both formats
+                    clean_name = model.name.replace('models/', '')
+                    available.append((clean_name, model.name))
+            return available
+        except Exception as e:
+            logger.warning(f"Could not list models: {e}")
+            return []
+    
+    def _get_or_create_model(self, generation_config: Optional[Dict] = None):
+        """Get or create model instance, with fallback support.
+        
+        Args:
+            generation_config: Optional generation config override
+            
+        Returns:
+            Model instance
+        """
+        config = generation_config or self.generation_config
+        
+        # First, try to discover available models
+        available_models = self._discover_available_models()
+        
+        # Simplified: Use correct model names that actually work
+        model_candidates = []
+        
+        # Try configured model first
+        if self.model_name:
+            model_candidates.append(self.model_name)
+            # Also try without models/ prefix if needed
+            if self.model_name.startswith('models/'):
+                model_candidates.append(self.model_name.replace('models/', ''))
+        
+        # Add correct fallbacks (models that actually exist - free tier friendly)
+        fallbacks = [
+            "models/gemini-flash-latest",  # Free tier - use this first
+            "models/gemini-2.0-flash",     # Alternative
+            "models/gemini-flash-lite-latest",  # Lightweight
+            "models/gemini-pro-latest",    # Pro version
+        ]
+        
+        for model_name in fallbacks:
+            if model_name not in model_candidates:
+                model_candidates.append(model_name)
+        
+        # Try each model (no test call - just create instance)
+        last_error = None
+        
+        for model_name in model_candidates:
+            try:
+                # Create model instance directly
+                model = genai.GenerativeModel(
+                    model_name=model_name,
+                    generation_config=config,
+                    safety_settings=self.safety_settings,
+                    system_instruction="You are an intelligent email processing assistant."
+                )
+                
+                # If we get here, model instance was created
+                if model_name != self.model_name:
+                    logger.info(f"Using model: {model_name}")
+                self.model_name = model_name
+                return model
+                
+            except Exception as e:
+                last_error = e
+                continue
+        
+        # If all fail, use first candidate anyway (might work on actual call)
+        if model_candidates:
+            logger.warning(f"Model initialization had issues, trying {model_candidates[0]} anyway")
+            return genai.GenerativeModel(
+                model_name=model_candidates[0],
+                generation_config=config,
+                safety_settings=self.safety_settings,
+                system_instruction="You are an intelligent email processing assistant."
+            )
+        
+        raise ValueError(f"Could not create model. Last error: {last_error}")
     
     def generate_completion(self, prompt: str, 
                            system_instruction: Optional[str] = None,
@@ -72,10 +159,12 @@ class GeminiClient:
         Returns:
             Dictionary with 'success', 'response', and 'error' keys
         """
+        # Use fewer retries for categorization (faster)
+        max_retries = 1 if max_tokens and max_tokens <= 50 else MAX_RETRIES
         retries = 0
-        backoff_delay = 1
+        backoff_delay = 0.5  # Reduced backoff
         
-        while retries < MAX_RETRIES:
+        while retries < max_retries:
             try:
                 # Override config if provided
                 config = self.generation_config.copy()
@@ -84,22 +173,44 @@ class GeminiClient:
                 if max_tokens is not None:
                     config["max_output_tokens"] = max_tokens
                 
-                # Create model with custom config if needed
-                if temperature is not None or max_tokens is not None:
-                    model = genai.GenerativeModel(
-                        model_name=self.model_name,
-                        generation_config=config,
-                        safety_settings=self.safety_settings,
-                        system_instruction=system_instruction or "You are an intelligent email processing assistant."
-                    )
+                # Get or create model instance (with fallback support)
+                # Always use _get_or_create_model to ensure we have a working model
+                if self.model is None or temperature is not None or max_tokens is not None:
+                    model = self._get_or_create_model(config if (temperature is not None or max_tokens is not None) else None)
+                    # Cache the model if using default config
+                    if temperature is None and max_tokens is None:
+                        self.model = model
                 else:
                     model = self.model
+                    # If cached model fails, get a new one
+                    if model is None:
+                        model = self._get_or_create_model()
+                        self.model = model
                 
-                # Generate response
-                response = model.generate_content(
-                    prompt,
-                    request_options={"timeout": REQUEST_TIMEOUT}
-                )
+                # Generate response - use shorter timeout for faster processing
+                timeout = 10 if max_tokens and max_tokens <= 50 else REQUEST_TIMEOUT  # Very short for categorization
+                try:
+                    response = model.generate_content(
+                        prompt,
+                        request_options={"timeout": timeout}
+                    )
+                except Exception as model_error:
+                    # If error is about model not found, try getting a new model
+                    if "404" in str(model_error) or "not found" in str(model_error).lower():
+                        logger.warning(f"Model failed, trying fallback: {model_error}")
+                        # Reset cached model and try again with fallback
+                        self.model = None
+                        model = self._get_or_create_model(config if (temperature is not None or max_tokens is not None) else None)
+                        if temperature is None and max_tokens is None:
+                            self.model = model
+                        timeout = 10 if max_tokens and max_tokens <= 50 else REQUEST_TIMEOUT
+                        response = model.generate_content(
+                            prompt,
+                            request_options={"timeout": timeout}
+                        )
+                    else:
+                        # Re-raise if it's not a model error
+                        raise
                 
                 # Extract text from response
                 if response.text:
@@ -134,13 +245,27 @@ class GeminiClient:
                 error_msg = str(e)
                 logger.warning(f"Gemini API call failed (attempt {retries + 1}/{MAX_RETRIES}): {error_msg}")
                 
-                # Check if it's a rate limit error
+                # Check if it's a rate limit/quota error
                 if "429" in error_msg or "quota" in error_msg.lower() or "rate limit" in error_msg.lower():
+                    # Extract retry delay from error if available
+                    wait_time = 10  # Default wait time
+                    if "retry_delay" in error_msg.lower():
+                        # Try to extract seconds from error
+                        import re
+                        delay_match = re.search(r'seconds[:=]\s*(\d+)', error_msg)
+                        if delay_match:
+                            wait_time = int(delay_match.group(1)) + 2  # Add buffer
+                    
                     if retries < MAX_RETRIES - 1:
-                        wait_time = backoff_delay * (2 ** retries)
-                        logger.info(f"Rate limited. Waiting {wait_time} seconds before retry...")
+                        logger.warning(f"⚠️ Rate limit/quota exceeded. Waiting {wait_time} seconds...")
                         time.sleep(wait_time)
-                        backoff_delay *= 2
+                    else:
+                        # Return early on quota errors instead of retrying
+                        return {
+                            'success': False,
+                            'response': None,
+                            'error': f'Quota exceeded. Please wait a few minutes and try again. Error: {error_msg[:100]}'
+                        }
                 
                 retries += 1
                 
